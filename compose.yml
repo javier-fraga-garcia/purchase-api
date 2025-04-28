@@ -1,0 +1,31 @@
+name: purchases-api
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/api:rw
+    environment:
+      DATABASE_URL: postgresql+asyncpg://testuser:pwd123@db:5432/purchases
+    develop:
+      watch:
+        - path: ./requirements.txt
+          action: rebuild
+        - path: ./compose.yml
+          action: rebuild
+        - path: ./Dockerfile
+          action: rebuild
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: pwd123
+      POSTGRES_DB: purchases
+
+volumes:
+  db_data:
