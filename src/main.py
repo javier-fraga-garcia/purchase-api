@@ -5,7 +5,6 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import insert
 
 from database import init_db, async_session
 from models import Purchase
@@ -13,6 +12,7 @@ from schema import PurchaseEventSchema
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
 
 async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session() as session:
